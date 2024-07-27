@@ -38,6 +38,7 @@ public class AuthService {
     }
 
     public UUID generateToken(String userId) {
+        repository.deleteById(userId);
         UUID token = createRandomUUID();
         repository.save(new AuthToken(userId, token, System.currentTimeMillis() + authProperties.getTokenValidity()));
         return token;

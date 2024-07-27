@@ -88,8 +88,7 @@ public class UserAccountService {
             String passwordHash = encodePassword(loginRequest.password());
             if(!(loginRequest.countryCode().equals(profile.getCountryCode()) || passwordHash.equals(profile.getPassword())))
                 return new ResponseEntity<>(new LoginResponse(false, null, null),HttpStatus.UNAUTHORIZED);
-            Optional<UUID> tokenOptional = authService.isSessionActive(profile.getUserId());
-            UUID token = tokenOptional.orElse(authService.generateToken(profile.getUserId()));
+            UUID token = authService.generateToken(profile.getUserId());
             return new ResponseEntity<>(new LoginResponse(true, profile.getUserId(), token), HttpStatus.OK);
         }
         catch (NoSuchUserException e){
