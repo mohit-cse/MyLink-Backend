@@ -3,13 +3,18 @@ package com.mohit.mylink.Utils.Validators;
 import com.mohit.mylink.Data.UserProfile;
 import java.util.regex.Pattern;
 
-public class UserSignupValidator {
-    public static boolean validate(UserProfile profile) {
+public class UserProfileValidator {
+    public static boolean validateSignup(UserProfile profile) {
         return validateName(profile.getName()) &&
                 validatePhone(profile.getPhone()) &&
                 validateEmail(profile.getEmail()) &&
                 validateCountryCode(profile.getCountryCode()) &&
                 validatePassword(profile.getPassword());
+    }
+
+    public static boolean validateLogin(String countryCode, long phone) {
+        return validatePhone(phone) &&
+                validateCountryCode(countryCode);
     }
 
     private static boolean validateName(String name){

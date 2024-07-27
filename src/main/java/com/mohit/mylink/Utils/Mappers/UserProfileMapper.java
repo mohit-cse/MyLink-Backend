@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 public class UserProfileMapper {
     public UserProfile mapToProfile(SignupRequest request){
         UserProfile profile = new UserProfile();
-        profile.setCountryCode(request.getCountryCode());
-        profile.setName(request.getName());
-        profile.setEmail(request.getEmail());
-        profile.setPassword(request.getPassword());
-        profile.setPhone(request.getPhone());
+        profile.setCountryCode(request.countryCode());
+        profile.setName(request.name());
+        profile.setEmail(request.email());
+        profile.setPassword(request.password());
+        profile.setPhone(request.phone());
         return profile;
     }
 }

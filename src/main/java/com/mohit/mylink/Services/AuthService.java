@@ -1,46 +1,45 @@
 package com.mohit.mylink.Services;
 
-import com.mohit.mylink.DTOs.SignupRequest;
-import com.mohit.mylink.DTOs.SignupResponse;
-import com.mohit.mylink.Data.UserProfile;
-import com.mohit.mylink.Data.UserProfileRepository;
-import com.mohit.mylink.Utils.Mappers.UserProfileMapper;
-import com.mohit.mylink.Utils.UserIDGenerator;
-import com.mohit.mylink.Utils.Validators.UserSignupValidator;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.mohit.mylink.Data.AuthToken;
+import com.mohit.mylink.Data.AuthTokenRepository;
+import com.mohit.mylink.Properties.AuthProperties;
+import com.mohit.mylink.Utils.Generator.UserIDGenerator;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AuthService {
-    private final UserProfileRepository profileRepository;
-    private final UserProfileMapper mapper;
-    private static final int ID_LENGTH = 6;
-    AuthService(UserProfileRepository profileRepository, UserProfileMapper mapper){
-        this.profileRepository = profileRepository;
-        this.mapper = mapper;
+    private final AuthTokenRepository repository;
+    private final AuthProperties authProperties;
+    AuthService(AuthTokenRepository repository, AuthProperties authProperties){
+        this.repository = repository;
+        this.authProperties = authProperties;
     }
 
-    public String createRandomUserId() {
-        String userId;
+    private UUID createRandomUUID() {
+        UUID token;
         do {
-            userId = UserIDGenerator.generateId(ID_LENGTH);
-        } while (profileRepository.existsById(userId));
-        return userId;
+            token = UUID.randomUUID();
+        } while (repository.existsByToken(token));
+        return token;
     }
 
-    public String encodePassword(String plainPassword){
-        return new BCryptPasswordEncoder().encode(plainPassword);
+    Optional<UUID> isSessionActive(String userId){
+        Optional<AuthToken> tokenOptional = repository.findById(userId);
+        if(tokenOptional.isEmpty()) return Optional.empty();
+        AuthToken token = tokenOptional.get();
+        if(System.currentTimeMillis() >= token.getValidUntil()){
+            repository.delete(token);
+            return Optional.empty();
+        }
+        return Optional.of(token.getToken());
     }
 
-    public ResponseEntity<SignupResponse> signup(SignupRequest signupRequest) {
-        UserProfile profile = mapper.mapToProfile(signupRequest);
-        if(!UserSignupValidator.validate(profile)) return new ResponseEntity<>(new SignupResponse(false, null),HttpStatus.BAD_REQUEST);
-        String userId = createRandomUserId();
-        profile.setUserId(userId);
-        profile.setPassword(encodePassword(profile.getPassword()));
-        profileRepository.save(profile);
-        return new ResponseEntity<>(new SignupResponse(true, userId),HttpStatus.CREATED);
+    public UUID generateToken(String userId) {
+        UUID token = createRandomUUID();
+        repository.save(new AuthToken(userId, token, System.currentTimeMillis() + authProperties.getTokenValidity()));
+        return token;
     }
 }
