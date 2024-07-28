@@ -34,7 +34,6 @@ jobs:
         -Dspring.profiles.active=github-ci \
         -DDB_NAME=${{ secrets.DB_NAME }} \
         -DDB_USER=${{ secrets.DB_USER }} \
-        -DDB_PORT=${{ secrets.DB_PORT }} \
         -DSERVER_PORT=8081
 
     - name: Log in to Docker Hub
