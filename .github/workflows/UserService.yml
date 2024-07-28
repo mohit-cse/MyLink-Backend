@@ -42,7 +42,7 @@ jobs:
         image: mohitcse/microservices
         tags: latest
         registry: docker.io
-        directory: UserService
-        dockerfile: UserService/Dockerfile
+        directory: UserService/
+        dockerfile: Dockerfile
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
