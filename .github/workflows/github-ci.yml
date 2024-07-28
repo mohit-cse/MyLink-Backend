@@ -14,6 +14,6 @@ on:
 
 jobs:
   build_user_service:
-    uses: ../../UserService/github-ci.yml
+    uses: ./UserService.yml
     with:
       project_name: UserService
