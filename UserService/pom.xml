@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mohit</groupId>
-	<artifactId>mylink</artifactId>
+	<artifactId>user_service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>mylink</name>
-	<description>MyLink App</description>
+	<name>user_service</name>
+	<description>User Service</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -83,6 +83,14 @@
 			<version>2.11.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>2.2.224</version>
+			<scope>runtime</scope>
+		</dependency>
+
 	</dependencies>
 
 	<profiles>
@@ -99,6 +107,12 @@
 			<id>prod</id>
 			<properties>
 				<activatedProperties>prod</activatedProperties>
+			</properties>
+		</profile>
+		<profile>
+			<id>github-ci</id>
+			<properties>
+				<activatedProperties>githubci</activatedProperties>
 			</properties>
 		</profile>
 	</profiles>
