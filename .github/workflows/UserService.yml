@@ -43,6 +43,6 @@ jobs:
         tags: latest
         registry: docker.io
         directory: UserService
-        dockerfile: Dockerfile
+        dockerfile: UserService/Dockerfile
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
