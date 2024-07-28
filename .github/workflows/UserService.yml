@@ -1,7 +1,6 @@
 name: Build & Push docker image for UserService
 
 on:
-  workflow_call:
   push:
     branches: [main]
     paths:
@@ -27,4 +26,5 @@ jobs:
         cache: maven
   
     - name: Build with Maven
+      working-directory: /UserService
       run: mvn clean install
