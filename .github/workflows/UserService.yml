@@ -1,6 +1,7 @@
 name: Build & Push docker image for UserService
 
 on:
+  workflow_call:
   push:
     branches: [main]
     paths:
