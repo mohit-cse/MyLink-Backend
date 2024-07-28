@@ -24,11 +24,11 @@ springdoc:
 # Logging properties
 logging:
   level:
-    root: INFO
+    root: DEBUG
     org:
       springframework:
         web:
           filter:
-            CommonsRequestLoggingFilter: INFO
+            CommonsRequestLoggingFilter: DEBUG
   com:
     mohit: TRACE
