@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a5c74c9c-f523-4c02-bb62-e4b4159a289e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Configs/BCryptPassWordEncoderConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Controllers/AuthController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Controllers/UserAccountController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/DTOs/AuthRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/DTOs/AuthResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/DTOs/LoginRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/DTOs/LoginResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/DTOs/SignupRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/DTOs/SignupResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/DTOs/UserProfileDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Data/AuthToken.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Data/AuthTokenRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Data/UserProfile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Data/UserProfileRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Properties/AuthProperties.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Services/AuthService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Services/UserAccountService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/UserServiceApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Utils/Exceptions/NoSuchTokenException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Utils/Exceptions/NoSuchUserException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Utils/Exceptions/UserAlreadyExistsException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Utils/Facade/AuthFacade.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Utils/Facade/UserAccountFacade.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Utils/Generator/UserIDGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Utils/HttpRequestLogging/CachedHttpServletRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Utils/HttpRequestLogging/CachedServletInputStream.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Utils/HttpRequestLogging/HttpRequestCachingFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Utils/Mappers/SignupRequestToUserProfileMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Utils/Mappers/UserProfileToLoginResponseMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mohit/userservice/Utils/Validators/UserProfileValidator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-dev.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-prod.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/auth.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/mohit/userservice/MylinkApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Record" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2jpisOBayLMe1J0gQ5NAgI5xJkB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Dev.executor": "Run",
+    "Application.MylinkApplication.executor": "Run",
+    "Application.Prod.executor": "Run",
+    "Application.UserServiceApplication.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "settings.editor.selected.configurable": "configurable.group.other"
+  }
+}]]></component>
+  <component name="RunManager" selected="Application.Dev">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="MyLink-Backend" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="MyLink-Backend" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Prod" />
+      <item itemvalue="Application.Dev" />
+    </list>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-16.0.2-corretto-16.0.2-4caba194b151-c3ee3a3f" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a5c74c9c-f523-4c02-bb62-e4b4159a289e" name="Changes" comment="" />
+      <created>1722090625006</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1722090625006</updated>
+    </task>
+    <servers />
+  </component>
+</project>
