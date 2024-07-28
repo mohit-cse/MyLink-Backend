@@ -10,6 +10,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ../../UserService
     permissions:
       packages: write
       contents: read
@@ -26,5 +29,4 @@ jobs:
         cache: maven
   
     - name: Build with Maven
-      working-directory: ../../UserService
       run: mvn clean install
