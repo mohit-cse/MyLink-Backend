@@ -1,73 +1,82 @@
 package com.mohit.userservice.Services;
 
-import com.mohit.userservice.DTOs.AuthRequestDTO;
-import com.mohit.userservice.DTOs.AuthResponseDTO;
-import com.mohit.userservice.Data.AuthToken;
-import com.mohit.userservice.Data.AuthTokenRepository;
-import com.mohit.userservice.Properties.AuthProperties;
-import com.mohit.userservice.Utils.Exceptions.NoSuchTokenException;
+import com.mohit.userservice.DTOs.*;
+import com.mohit.userservice.Data.UserProfile;
+import com.mohit.userservice.Data.UserProfileRepository;
+import com.mohit.userservice.Utils.Exceptions.UserAlreadyExistsException;
+import com.mohit.userservice.Utils.Generator.UserIDGenerator;
+import com.mohit.userservice.Utils.Mappers.SignupRequestToUserProfileMapper;
+import com.mohit.userservice.Utils.Validators.UserProfileValidator;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class AuthService {
-    private final AuthTokenRepository repository;
-    private final AuthProperties authProperties;
-    AuthService(AuthTokenRepository repository, AuthProperties authProperties){
-        this.repository = repository;
-        this.authProperties = authProperties;
+    private final UserProfileRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private static final int ID_LENGTH = 6;
+
+    public AuthService(
+            UserProfileRepository userRepository,
+            AuthenticationManager authenticationManager,
+            PasswordEncoder passwordEncoder
+    ) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    private boolean checkForUserExistence(UserProfile profile){
+        return userRepository.existsByPhone(profile.getPhone()) || userRepository.existsByEmail(profile.getEmail());
     }
 
     @Transactional
-    private UUID createRandomUUID() {
-        UUID token;
+    private String createRandomUserId() {
+        String userId;
         do {
-            token = UUID.randomUUID();
-        } while (repository.existsByToken(token));
-        return token;
+            userId = UserIDGenerator.generateId(ID_LENGTH);
+        } while (userRepository.existsById(userId));
+        return userId;
     }
-
     @Transactional
-    private Optional<UUID> isSessionActive(String userId){
-        Optional<AuthToken> tokenOptional = repository.findById(userId);
-        if(tokenOptional.isEmpty()) return Optional.empty();
-        AuthToken token = tokenOptional.get();
-        if(System.currentTimeMillis() >= token.getValidUntil()){
-            repository.delete(token);
-            return Optional.empty();
-        }
-        return Optional.of(token.getToken());
+    private void saveProfile(UserProfile profile) throws UserAlreadyExistsException {
+        if(checkForUserExistence(profile)) throw new UserAlreadyExistsException("User with phone: "
+                + profile.getPhone() + " or email: "
+                + profile.getEmail() + " already exists");
+        userRepository.save(profile);
     }
 
-    @Transactional
-    public UUID generateToken(String userId) {
-        repository.deleteById(userId);
-        UUID token = createRandomUUID();
-        repository.save(new AuthToken(userId, token, System.currentTimeMillis() + authProperties.getTokenValidity()));
-        return token;
-    }
-
-    private UUID findToken(String userId) throws NoSuchTokenException{
-        Optional<UUID> authTokenOptional = isSessionActive(userId);
-        if(authTokenOptional.isEmpty()) throw new NoSuchTokenException("Session for with userID: " + userId + " doesn't exist");
-        return authTokenOptional.get();
-    }
-
-    public ResponseEntity<AuthResponseDTO> authenticate(AuthRequestDTO authRequestDTO) {
+    public ResponseEntity<SignupResponseDTO> signup(SignupRequestDTO signupRequest) {
+        UserProfile profile = SignupRequestToUserProfileMapper.mapToProfile(signupRequest);
+        if(!UserProfileValidator.validateSignup(profile)) return new ResponseEntity<>(new SignupResponseDTO(false, null),HttpStatus.BAD_REQUEST);
+        profile.setPassword(passwordEncoder.encode(signupRequest.password()));
+        String userId = createRandomUserId();
+        profile.setUserId(userId);
         try{
-            UUID token = findToken(authRequestDTO.userId());
-            if(!token.equals(authRequestDTO.token()))
-                return new ResponseEntity<>(new AuthResponseDTO(false, authRequestDTO.userId()), HttpStatus.UNAUTHORIZED);
-            return new ResponseEntity<>(new AuthResponseDTO(true, authRequestDTO.userId()), HttpStatus.OK);
+            saveProfile(profile);
         }
-        catch (NoSuchTokenException e){
+        catch (UserAlreadyExistsException e){
             e.printStackTrace();
-            return new ResponseEntity<>(new AuthResponseDTO(false, authRequestDTO.userId()), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new SignupResponseDTO(false, null),HttpStatus.CONFLICT);
         }
+        return new ResponseEntity<>(new SignupResponseDTO(true, userId),HttpStatus.CREATED);
     }
+
+    public UserProfile authenticateLogin(LoginRequestDTO loginRequest) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.email(),
+                        loginRequest.password()
+                )
+        );
+
+        return userRepository.findByEmail(loginRequest.email()).orElseThrow();
+    }
+
 }

@@ -16,6 +16,12 @@ spring:
     exclude[0]: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
     exclude[1]: org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
 
+# Jwt properties
+security:
+  jwt:
+    secret-key: ${JWT_SECRET_KEY}
+    expiration-time: 21600000
+
 # Swagger properties
 springdoc:
   swagger-ui:
