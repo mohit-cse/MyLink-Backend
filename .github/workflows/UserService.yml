@@ -31,7 +31,7 @@ jobs:
     - name: Build with Maven
       run: |
         mvn clean install \
-        -Dspring.profiles.active=github-ci \
+        -Dspring.profiles.active=githubci \
         -DDB_NAME=${{ secrets.DB_NAME }} \
         -DDB_USER=${{ secrets.DB_USER }} \
         -DSERVER_PORT=8081
