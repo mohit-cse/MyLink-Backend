@@ -36,7 +36,6 @@ public class AuthService {
         return userRepository.existsByPhone(profile.getPhone()) || userRepository.existsByEmail(profile.getEmail());
     }
 
-    @Transactional
     private String createRandomUserId() {
         String userId;
         do {

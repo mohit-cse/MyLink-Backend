@@ -1,10 +1,10 @@
-name: Build & Push docker image for UserService
+name: Build & Push docker image for DocService
 
 on:
 #  push:
 #    branches: [main]
 #    paths:
-#      - 'UserService/**'
+#      - 'DocService/**'
 
 jobs:
   build:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: UserService
+        working-directory: DocService
     permissions:
       packages: write
       contents: read
@@ -34,15 +34,15 @@ jobs:
         -Dspring.profiles.active=githubci \
         -DDB_NAME=${{ secrets.DB_NAME }} \
         -DDB_USER=${{ secrets.DB_USER }} \
-        -DSERVER_PORT=8081
+        -DSERVER_PORT=8082
 
     - name: Build & Push image to dockerhub
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
         image: mohitcse/microservices
-        tags: user_service-v1.1
+        tags: doc_service-v1.0
         registry: docker.io
-        directory: UserService/
-        dockerfile: UserService/Dockerfile
+        directory: DocService/
+        dockerfile: DocService/Dockerfile
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
