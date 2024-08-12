@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import retrofit2.http.Multipart;
-
 import java.util.Optional;
 
 @Service
@@ -20,27 +18,6 @@ public class MinioService {
     MinioService(MinioClient minioClient){
         this.minioClient = minioClient;
     }
-
-//    private boolean makeBucket(String userId){
-//        try{
-//            minioClient.makeBucket(MakeBucketArgs.builder().bucket(userId).build());
-//            return true;
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
-//
-//    private boolean isBucketPresent(String userId){
-//        try{
-//            return minioClient.bucketExists(BucketExistsArgs.builder().bucket(userId).build());
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
 
     private boolean fileExists(String filePath){
         try {
@@ -89,6 +66,22 @@ public class MinioService {
         catch (Exception e){
             e.printStackTrace();
             return Optional.empty();
+        }
+    }
+
+    public boolean deleteFile(String filePath){
+        try {
+            minioClient.removeObject(
+                    RemoveObjectArgs.builder()
+                            .bucket(bucket)
+                            .object(filePath)
+                            .build()
+            );
+            return true;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return false;
         }
     }
 }

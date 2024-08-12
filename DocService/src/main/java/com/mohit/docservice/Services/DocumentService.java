@@ -10,6 +10,7 @@ import com.mohit.docservice.HttpRequests.AuthService;
 import com.mohit.docservice.Utils.Exceptions.FileExistsException;
 import com.mohit.docservice.Utils.Exceptions.NoSuchFileException;
 import com.mohit.docservice.Utils.Mappers.DocumentMetadataMapper;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,9 @@ public class DocumentService {
     private final DocumentMetadataRepository documentMetadataRepository;
     private final AuthService authService;
     private final MinioService minIOService;
-    DocumentService(DocumentMetadataRepository documentMetadataRepository, AuthService authService, MinioService minIOService){
+    DocumentService(DocumentMetadataRepository documentMetadataRepository,
+                    AuthService authService,
+                    MinioService minIOService){
         this.documentMetadataRepository = documentMetadataRepository;
         this.authService = authService;
         this.minIOService = minIOService;
@@ -78,6 +81,20 @@ public class DocumentService {
         }
     }
 
+    private ResponseEntity<Boolean> deleteDocUtil(DocumentMetadata documentMetadata){
+        try {
+            if(minIOService.deleteFile(documentMetadata.getDocPath())){
+                documentMetadataRepository.deleteById(documentMetadata.getDocID());
+                return new ResponseEntity<>(true, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(false, HttpStatus.SERVICE_UNAVAILABLE);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(false, HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
     public ResponseEntity<CreateDocumentResponseDTO> createDoc(MultipartFile file, String jwtToken){
         Optional<String> userIdOptional = getUserId(jwtToken);
         if(userIdOptional.isEmpty())
@@ -89,7 +106,13 @@ public class DocumentService {
         String filePath = userId + "/" + file.getOriginalFilename();
         try {
             if(minIOService.uploadFile(userId, file, filePath)){
-                documentMetadataRepository.save(new DocumentMetadata(docID, userId, filePath, file.getOriginalFilename(), System.currentTimeMillis()));
+                documentMetadataRepository.save(new DocumentMetadata(docID,
+                        userId,
+                        filePath,
+                        file.getOriginalFilename(),
+                        file.getContentType(),
+                        file.getSize(),
+                        System.currentTimeMillis()));
                 return new ResponseEntity<>(new CreateDocumentResponseDTO(true, docID), HttpStatus.CREATED);
             }
             return new ResponseEntity<>(new CreateDocumentResponseDTO(false, null), HttpStatus.SERVICE_UNAVAILABLE);
@@ -115,11 +138,17 @@ public class DocumentService {
         Optional<String> userIdOptional = getUserId(jwtToken);
         if(userIdOptional.isEmpty())
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        String userId = userIdOptional.get();
+
         Optional<DocumentMetadata> documentMetadataOptional = documentMetadataRepository.findById(docId);
         if(documentMetadataOptional.isEmpty())
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
         DocumentMetadata documentMetadata = documentMetadataOptional.get();
+        if(!documentMetadata.getUserID().equals(userId))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
         return getDoc(documentMetadata);
     }
 
@@ -127,10 +156,52 @@ public class DocumentService {
         Optional<String> userIdOptional = getUserId(jwtToken);
         if(userIdOptional.isEmpty())
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        String userId = userIdOptional.get();
+
         Optional<DocumentMetadata> documentMetadataOptional = documentMetadataRepository.findByDocName(docName);
         if(documentMetadataOptional.isEmpty())
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
         DocumentMetadata documentMetadata = documentMetadataOptional.get();
+        if(!documentMetadata.getUserID().equals(userId))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
         return getDoc(documentMetadata);
+    }
+
+    public ResponseEntity<Boolean> deleteDoc(String jwtToken, String docId) {
+        Optional<String> userIdOptional = getUserId(jwtToken);
+        if(userIdOptional.isEmpty())
+            return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+
+        String userId = userIdOptional.get();
+
+        Optional<DocumentMetadata> documentMetadataOptional = documentMetadataRepository.findById(docId);
+        if(documentMetadataOptional.isEmpty())
+            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+
+        DocumentMetadata documentMetadata = documentMetadataOptional.get();
+        if(!documentMetadata.getUserID().equals(userId))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        return deleteDocUtil(documentMetadata);
+    }
+    public ResponseEntity<Boolean> deleteDocByName(String jwtToken, String docName) {
+        Optional<String> userIdOptional = getUserId(jwtToken);
+        if(userIdOptional.isEmpty())
+            return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+
+        String userId = userIdOptional.get();
+
+        Optional<DocumentMetadata> documentMetadataOptional = documentMetadataRepository.findByDocName(docName);
+        if(documentMetadataOptional.isEmpty())
+            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+
+        DocumentMetadata documentMetadata = documentMetadataOptional.get();
+        if(!documentMetadata.getUserID().equals(userId))
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        return deleteDocUtil(documentMetadata);
     }
 }

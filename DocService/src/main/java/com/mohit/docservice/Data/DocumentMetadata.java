@@ -16,5 +16,7 @@ public class DocumentMetadata {
     private String userID;
     private String docPath;
     private String docName;
+    private String docType;
+    private long docSize;
     private long createdAt;
 }

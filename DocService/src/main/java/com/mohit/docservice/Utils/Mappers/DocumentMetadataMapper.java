@@ -5,6 +5,10 @@ import com.mohit.docservice.Data.DocumentMetadata;
 
 public class DocumentMetadataMapper {
     public static DocumentMetadataDTO mapToDocumentMetadataDTO(DocumentMetadata documentMetadata){
-        return new DocumentMetadataDTO(documentMetadata.getDocID(), documentMetadata.getDocName(), documentMetadata.getCreatedAt());
+        return new DocumentMetadataDTO(documentMetadata.getDocID(),
+                documentMetadata.getDocName(),
+                documentMetadata.getDocType(),
+                documentMetadata.getDocSize(),
+                documentMetadata.getCreatedAt());
     }
 }

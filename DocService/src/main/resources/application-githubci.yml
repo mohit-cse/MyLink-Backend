@@ -4,3 +4,15 @@ server:
 spring:
   application:
     name: doc-service
+  data:
+    elasticsearch:
+      cluster-nodes: ${ES_CLUSTER_NODE}
+    minio:
+      node: ${MINIO_NODE}
+      user: ${MINIO_USER}
+      password: ${MINIO_PASSWORD}
+      bucket: ${MINIO_BUCKET}
+
+# Other Service endpoints
+endpoints:
+    user-service: ${USER_SERVICE_ENDPOINT}
