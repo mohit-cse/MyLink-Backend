@@ -30,7 +30,7 @@ springdoc:
 # Logging properties
 logging:
   level:
-    root: DEBUG
+    root: INFO
     org:
       springframework:
         web:
