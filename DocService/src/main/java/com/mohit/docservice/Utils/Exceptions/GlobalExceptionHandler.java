@@ -16,6 +16,7 @@ public class GlobalExceptionHandler {
         e.printStackTrace();
         return new ResponseEntity<>("Max allowed size for document is 10MB", HttpStatus.REQUEST_ENTITY_TOO_LARGE);
     }
+    
     @ExceptionHandler(MultipartException.class)
     public ResponseEntity<String> noAttachment(MultipartException e) {
         e.printStackTrace();
