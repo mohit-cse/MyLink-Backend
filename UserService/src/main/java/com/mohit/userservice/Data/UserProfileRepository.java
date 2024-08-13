@@ -10,4 +10,5 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, String
     Optional<UserProfile> findByEmail(String email);
 
     Optional<UserProfile> findByPhone(long phone);
+    void deleteByEmail(String email);
 }

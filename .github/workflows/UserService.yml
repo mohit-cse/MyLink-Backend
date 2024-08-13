@@ -40,7 +40,7 @@ jobs:
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
         image: mohitcse/microservices
-        tags: user_service-v1.1
+        tags: user_service-v1.2
         registry: docker.io
         directory: UserService/
         dockerfile: UserService/Dockerfile

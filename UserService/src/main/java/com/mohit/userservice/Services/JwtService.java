@@ -2,6 +2,7 @@ package com.mohit.userservice.Services;
 
 import com.mohit.userservice.DTOs.AuthRequestDTO;
 import com.mohit.userservice.DTOs.AuthResponseDTO;
+import com.mohit.userservice.DTOs.LoginRequestDTO;
 import com.mohit.userservice.Data.UserProfile;
 import com.mohit.userservice.Facade.UserProfileFacade;
 import io.jsonwebtoken.Claims;

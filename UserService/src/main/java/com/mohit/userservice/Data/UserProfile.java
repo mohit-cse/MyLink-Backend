@@ -2,6 +2,7 @@ package com.mohit.userservice.Data;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.transaction.Transactional;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

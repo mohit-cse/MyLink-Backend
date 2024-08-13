@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class AuthService {
     private final UserProfileRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -51,6 +52,18 @@ public class AuthService {
         userRepository.save(profile);
     }
 
+    @Transactional
+    private ResponseEntity<Boolean> deleteProfile(LoginRequestDTO loginRequest){
+        try{
+            userRepository.deleteByEmail(loginRequest.email());
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(false, HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
     public ResponseEntity<SignupResponseDTO> signup(SignupRequestDTO signupRequest) {
         UserProfile profile = SignupRequestToUserProfileMapper.mapToProfile(signupRequest);
         if(!UserProfileValidator.validateSignup(profile)) return new ResponseEntity<>(new SignupResponseDTO(false, null),HttpStatus.BAD_REQUEST);
@@ -78,4 +91,13 @@ public class AuthService {
         return userRepository.findByEmail(loginRequest.email()).orElseThrow();
     }
 
+    public ResponseEntity<Boolean> deleteAccount(LoginRequestDTO loginRequest) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.email(),
+                        loginRequest.password()
+                )
+        );
+        return deleteProfile(loginRequest);
+    }
 }
