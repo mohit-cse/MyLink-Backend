@@ -14,7 +14,7 @@ This service is responsible for accounts and auth related endpoints.
 > This endpoint is for deleting the account.
 
 ### Doc Service
-This service is responsible for document and storage related endpoints. It can store and retrieve any type of file.
+This service is responsible for document and storage related endpoints. It can store and retrieve any type of file. All endpoints are secured by JWT token issued by user service.
 #### Doc service has following endpoints
 * `POST` /api/doc/upload
 > This endpoint is for uploading the document.
