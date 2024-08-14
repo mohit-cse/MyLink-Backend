@@ -1,0 +1,23 @@
+server:
+  port: ${SERVER_PORT}
+
+spring:
+  application:
+    name: api_gateway
+
+# Swagger properties
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+# Logging properties
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: INFO
+  com:
+    mohit: TRACE

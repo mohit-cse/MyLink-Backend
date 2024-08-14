@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "http://api.mohit", maxAge = 3600)
 public class AuthController {
     private final AuthService authService;
     private final JwtService jwtService;

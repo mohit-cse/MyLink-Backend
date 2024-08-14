@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/doc")
+@CrossOrigin(origins = "http://api.mohit", maxAge = 3600)
 public class DocumentController {
     private final DocumentService documentService;
     DocumentController(DocumentService documentService){
