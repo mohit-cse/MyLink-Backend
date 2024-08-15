@@ -16,10 +16,8 @@ public class OpenAPIConfig {
     @Bean
     public OpenAPI customOpenAPI(
             @Value("${openapi.service.title}") String serviceTitle,
-            @Value("${openapi.service.version}") String serviceVersion,
-            @Value("${openapi.service.url}") String url) {
+            @Value("${openapi.service.version}") String serviceVersion) {
         return new OpenAPI()
-                .servers(List.of(new Server().url(url)))
                 .info(new Info().title(serviceTitle).version(serviceVersion));
     }
 }

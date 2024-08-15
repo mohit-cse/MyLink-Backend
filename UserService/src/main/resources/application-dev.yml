@@ -32,7 +32,6 @@ openapi:
   service:
     title: User Service
     version: v${VERSION}
-    url: user-service
 
 # Logging properties
 logging:

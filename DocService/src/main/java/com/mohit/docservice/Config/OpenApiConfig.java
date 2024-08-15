@@ -16,11 +16,9 @@ import java.util.List;
 public class OpenApiConfig {
     @Value("${openapi.service.title}") String serviceTitle;
     @Value("${openapi.service.version}") String serviceVersion;
-    @Value("${openapi.service.url}") String url;
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .servers(List.of(new Server().url(url)))
                 .info(new Info().title(serviceTitle).version(serviceVersion))
                 .components(
                 new Components().addSecuritySchemes("bearer-key",

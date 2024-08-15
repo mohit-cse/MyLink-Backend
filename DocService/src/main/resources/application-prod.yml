@@ -31,7 +31,6 @@ openapi:
   service:
     title: Doc Service
     version: v${VERSION}
-    url: doc-service
 
 # Logging properties
 logging:
