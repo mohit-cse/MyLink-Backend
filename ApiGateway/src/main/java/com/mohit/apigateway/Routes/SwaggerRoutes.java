@@ -7,22 +7,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 
-
 @Configuration
-public class ServiceRoutes {
+public class SwaggerRoutes {
     @Value("${endpoints.user-service}")
     String USER_SERVICE_URL;
     @Value("${endpoints.doc-service}")
     String DOC_SERVICE_URL;
     @Bean
-    public RouteLocator swaggerRouteLocator(RouteLocatorBuilder builder) {
+    public RouteLocator serviceRouteLocator(RouteLocatorBuilder builder) {
         return builder
                 .routes()
-                .route(r -> r.path("/api/auth/**")
+                .route(r -> r.path("/user-service/**")
                         .and().method(HttpMethod.GET, HttpMethod.DELETE, HttpMethod.POST)
+                        .filters(f->f.rewritePath("/user-service/(?<segment>.*)","/${segment}"))
                         .uri("http://" + USER_SERVICE_URL))
-                .route(r -> r.path("/api/doc/**")
+                .route(r -> r.path("/doc-service/**")
                         .and().method(HttpMethod.GET, HttpMethod.DELETE, HttpMethod.POST)
+                        .filters(f->f.rewritePath("/doc-service/(?<segment>.*)","/${segment}"))
                         .uri("http://" + DOC_SERVICE_URL))
                 .build();
     }
