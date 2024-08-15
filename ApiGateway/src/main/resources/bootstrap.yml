@@ -1,0 +1,7 @@
+server:
+  port: ${SERVER_PORT}
+  forward-headers-strategy: framework
+
+spring:
+  application:
+    name: api_gateway

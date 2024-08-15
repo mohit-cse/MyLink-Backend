@@ -1,2 +1,4 @@
-server:
-  port: ${SERVER_PORT}
+# Other Service endpoints
+endpoints:
+  user-service: ${USER_SERVICE_ENDPOINT}
+  doc-service: ${DOC_SERVICE_ENDPOINT}

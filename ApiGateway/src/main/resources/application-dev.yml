@@ -1,21 +1,7 @@
-server:
-  port: ${SERVER_PORT}
-
-spring:
-  application:
-    name: api_gateway
-
 # Swagger properties
 springdoc:
   swagger-ui:
-    path: /swagger-ui.html
-    urls:
-      - url: /user-service/v3/api-docs
-        name: User Service
-        primaryName: User Service
-      - url: /doc-service/v3/api-docs
-        name: Doc Service
-        primaryName: Doc Service
+    path: /swagger.html
 
 # Other Service endpoints
 endpoints:
