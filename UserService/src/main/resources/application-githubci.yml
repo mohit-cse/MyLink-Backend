@@ -18,3 +18,10 @@ security:
   jwt:
     secret-key: ${JWT_SECRET_KEY}
     expiration-time: 21600000
+
+# OpenAPI Config
+openapi:
+  service:
+    title: User Service
+    version: v${VERSION}
+    url: user-service

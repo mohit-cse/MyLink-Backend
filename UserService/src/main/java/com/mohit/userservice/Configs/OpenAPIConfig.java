@@ -1,4 +1,4 @@
-package com.mohit.apigateway.Config;
+package com.mohit.userservice.Configs;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.OpenAPI;

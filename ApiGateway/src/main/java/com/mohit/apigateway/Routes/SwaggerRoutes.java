@@ -1,5 +1,6 @@
 package com.mohit.apigateway.Routes;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
@@ -8,16 +9,20 @@ import org.springframework.http.HttpMethod;
 
 @Configuration
 public class SwaggerRoutes {
+    @Value("${endpoints.user-service}")
+    String USER_SERVICE_URL;
+    @Value("${endpoints.doc-service}")
+    String DOC_SERVICE_URL;
     @Bean
     public RouteLocator swaggerRouteLocator(RouteLocatorBuilder builder) {
         return builder
                 .routes()
                 .route(r -> r.path("/user-service/v3/api-docs").and().method(HttpMethod.GET)
                         .filters(f->f.rewritePath("/user-service/(?<segment>.*)","/${segment}"))
-                        .uri("http://localhost:8081"))
+                        .uri("http://" + USER_SERVICE_URL))
                 .route(r -> r.path("/doc-service/v3/api-docs").and().method(HttpMethod.GET)
                         .filters(f->f.rewritePath("/doc-service/(?<segment>.*)","/${segment}"))
-                        .uri("http://doc-service-stage.mohit"))
+                        .uri("http://" + DOC_SERVICE_URL))
                 .build();
     }
 }

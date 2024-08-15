@@ -9,15 +9,28 @@ spring:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+    urls:
+      - url: /user-service/v3/api-docs
+        name: User Service
+        primaryName: User Service
+      - url: /doc-service/v3/api-docs
+        name: Doc Service
+        primaryName: Doc Service
+
+# Other Service endpoints
+endpoints:
+  user-service: ${USER_SERVICE_ENDPOINT}
+  doc-service: ${DOC_SERVICE_ENDPOINT}
 
 # Logging properties
 logging:
   level:
     root: INFO
+    reactor:
+      netty: INFO
     org:
       springframework:
-        web:
-          filter:
-            CommonsRequestLoggingFilter: INFO
+        cloud:
+          gateway: TRACE
   com:
     mohit: TRACE

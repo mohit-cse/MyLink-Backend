@@ -16,3 +16,10 @@ spring:
 # Other Service endpoints
 endpoints:
     user-service: ${USER_SERVICE_ENDPOINT}
+
+# OpenAPI Config
+openapi:
+  service:
+    title: Doc Service
+    version: v${VERSION}
+    url: doc-service

@@ -26,6 +26,13 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
+# OpenAPI Config
+openapi:
+  service:
+    title: Doc Service
+    version: v${VERSION}
+    url: doc-service
+
 # Logging properties
 logging:
   level:

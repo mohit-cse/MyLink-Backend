@@ -5,26 +5,22 @@ spring:
   application:
     name: api_gateway
 
-openapi:
-  service:
-    title: API Gateway
-    version: 1.0.0
-    url: http://localhost:8083
-
 # Swagger properties
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
     urls:
-      - url: /v3/api-docs
-        name: API Gateway Service
-        primaryName: API Gateway Service
       - url: /user-service/v3/api-docs
         name: User Service
         primaryName: User Service
       - url: /doc-service/v3/api-docs
         name: Doc Service
         primaryName: Doc Service
+
+# Other Service endpoints
+endpoints:
+  user-service: ${USER_SERVICE_ENDPOINT}
+  doc-service: ${DOC_SERVICE_ENDPOINT}
 
 # Logging properties
 logging:
