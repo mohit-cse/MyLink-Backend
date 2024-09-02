@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/mohit-cse/MyLink-Backend/NotificationService/kafka_producer"
@@ -28,11 +27,17 @@ func (message *Message) DeliverMessage() {
 
 func (message *Message) sendMessageOverSMS() {
 	kafkaMessage := message.KafkaMessage
-	var userDetails modals.UserDetails
+	var userDetails *modals.UserDetails
 	if (modals.UserDetails{} == kafkaMessage.UserDetails) {
-		fmt.Println("this is empty user")
+		var isResponse bool
+		userDetails, isResponse = GetUserDetails(kafkaMessage.UserId)
+		if !isResponse {
+			message.Producer.PublishResponse(&modals.KafkaResponse{ID: message.KafkaMessage.ID, IsDelivered: false, Channel: "phone"})
+			log.Println("SMS failed for message: " + message.KafkaMessage.ID)
+			return
+		}
 	} else {
-		userDetails = kafkaMessage.UserDetails
+		userDetails = &kafkaMessage.UserDetails
 	}
 	countryCode := userDetails.CountryCode
 	phone := userDetails.Phone
@@ -47,11 +52,17 @@ func (message *Message) sendMessageOverSMS() {
 
 func (message *Message) sendMessageOverEmail() {
 	kafkaMessage := message.KafkaMessage
-	var userDetails modals.UserDetails
+	var userDetails *modals.UserDetails
 	if (modals.UserDetails{} == kafkaMessage.UserDetails) {
-		fmt.Println("this is empty user")
+		var isResponse bool
+		userDetails, isResponse = GetUserDetails(kafkaMessage.UserId)
+		if !isResponse {
+			message.Producer.PublishResponse(&modals.KafkaResponse{ID: message.KafkaMessage.ID, IsDelivered: false, Channel: "email"})
+			log.Println("Email failed for message: " + message.KafkaMessage.ID)
+			return
+		}
 	} else {
-		userDetails = kafkaMessage.UserDetails
+		userDetails = &kafkaMessage.UserDetails
 	}
 	emailAddress := userDetails.EmailAddress
 	status := message.Twillio.sendMail(&modals.Email{Subject: kafkaMessage.EmailSubject, Message: kafkaMessage.EmailMessage, EmailAddress: emailAddress})

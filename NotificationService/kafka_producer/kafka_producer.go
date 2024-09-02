@@ -11,7 +11,7 @@ import (
 )
 
 type KafkaProducer struct {
-	config *configs.Config
+	kafkaConfig *configs.KafkaConfig
 }
 
 var lock = &sync.Mutex{}
@@ -30,11 +30,11 @@ func GetProducerInstance() *KafkaProducer {
 }
 
 func (producer *KafkaProducer) initialize() {
-	producer.config = configs.GetInstance()
+	producer.kafkaConfig = configs.GetKafkaConfig()
 }
 
 func (producer *KafkaProducer) PublishResponse(message *modals.KafkaResponse) {
-	kafkaConfig := producer.config.KafkaConfig
+	kafkaConfig := producer.kafkaConfig
 
 	p, err := producer.connectProducer()
 	panicError(err)
@@ -56,7 +56,7 @@ func (producer *KafkaProducer) PublishResponse(message *modals.KafkaResponse) {
 }
 
 func (producer *KafkaProducer) connectProducer() (*kafka.Producer, error) {
-	kafkaConfig := producer.config.KafkaConfig
+	kafkaConfig := producer.kafkaConfig
 	conn, err := kafka.NewProducer(&kafka.ConfigMap{
 		"bootstrap.servers": kafkaConfig.KafkaServerAddress,
 	})

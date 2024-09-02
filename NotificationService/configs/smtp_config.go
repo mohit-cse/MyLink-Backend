@@ -3,9 +3,10 @@ package configs
 import (
 	"os"
 	"strconv"
+	"sync"
 )
 
-type smtpConfig struct {
+type SMTPConfig struct {
 	SMTP_SERVER   string
 	SMTP_PORT     int
 	SMTP_SENDER   string
@@ -13,7 +14,22 @@ type smtpConfig struct {
 	SMTP_PASSWORD string
 }
 
-func (config *smtpConfig) loadConfig() {
+var smtpLock = &sync.Mutex{}
+var smtpConfig *SMTPConfig
+
+func GetSMTPConfig() *SMTPConfig {
+	if smtpConfig == nil {
+		smtpLock.Lock()
+		defer smtpLock.Unlock()
+		if smtpConfig == nil {
+			smtpConfig = &SMTPConfig{}
+			smtpConfig.loadConfig()
+		}
+	}
+	return smtpConfig
+}
+
+func (config *SMTPConfig) loadConfig() {
 	value, present := os.LookupEnv("SMTP_SERVER")
 	if !present {
 		panic("Env variable `SMTP_SERVER` is not set")

@@ -2,16 +2,32 @@ package configs
 
 import (
 	"os"
+	"sync"
 )
 
-type kafkaConfig struct {
+type KafkaConfig struct {
 	ConsumerGroup      string
 	ConsumerTopic      string
 	ProducerTopic      string
 	KafkaServerAddress string
 }
 
-func (config *kafkaConfig) loadConfig() {
+var kafkaLock = &sync.Mutex{}
+var kafkaConfig *KafkaConfig
+
+func GetKafkaConfig() *KafkaConfig {
+	if kafkaConfig == nil {
+		kafkaLock.Lock()
+		defer kafkaLock.Unlock()
+		if kafkaConfig == nil {
+			kafkaConfig = &KafkaConfig{}
+			kafkaConfig.loadConfig()
+		}
+	}
+	return kafkaConfig
+}
+
+func (config *KafkaConfig) loadConfig() {
 	value, present := os.LookupEnv("KAFKA_CONSUMER_GROUP")
 	if !present {
 		panic("Env variable `KAFKA_CONSUMER_GROUP` is not set")

@@ -11,19 +11,21 @@ import (
 )
 
 type Twillio struct {
-	client *twilio.RestClient
-	config *configs.Config
+	client        *twilio.RestClient
+	twillioConfig *configs.TwillioConfig
+	smtpConfig    *configs.SMTPConfig
 }
 
 func (twillio *Twillio) Initialize() {
-	twillio.config = configs.GetInstance()
-	twillioConfig := twillio.config.TwillioConfig
+	twillio.twillioConfig = configs.GetTwillioConfig()
+	twillio.smtpConfig = configs.GetSMTPConfig()
+	twillioConfig := twillio.twillioConfig
 	twillio.client = twilio.NewRestClientWithParams(twilio.ClientParams{Username: twillioConfig.ACCOUNT_SID,
 		Password: twillioConfig.AUTH_TOKEN})
 }
 
 func (twillio *Twillio) sendMail(email *modals.Email) bool {
-	smtpConfig := twillio.config.SMTPConfig
+	smtpConfig := twillio.smtpConfig
 	m := mail.NewMessage()
 	m.SetHeader("From", smtpConfig.SMTP_SENDER)
 	m.SetHeader("To", email.EmailAddress)
@@ -41,7 +43,7 @@ func (twillio *Twillio) sendMail(email *modals.Email) bool {
 }
 
 func (twillio *Twillio) sendSMS(sms *modals.SMS) bool {
-	twilioConfig := twillio.config.TwillioConfig
+	twilioConfig := twillio.twillioConfig
 	params := &openapi.CreateMessageParams{}
 	params.SetTo(sms.CountryCode + sms.Phone)
 	params.SetFrom(twilioConfig.NUMBER)

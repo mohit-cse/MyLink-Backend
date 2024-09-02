@@ -12,15 +12,15 @@ import (
 )
 
 type KafkaConsumer struct {
-	config *configs.Config
+	kafkaConfig *configs.KafkaConfig
 }
 
 func (consumer *KafkaConsumer) Initialize() {
-	consumer.config = configs.GetInstance()
+	consumer.kafkaConfig = configs.GetKafkaConfig()
 }
 
 func (consumer *KafkaConsumer) StartKafkaSubscriber() {
-	kafkaConfig := consumer.config.KafkaConfig
+	kafkaConfig := consumer.kafkaConfig
 	twillio := services.Twillio{}
 	twillio.Initialize()
 	kafkaProducer := kafka_producer.GetProducerInstance()
@@ -49,7 +49,7 @@ func (consumer *KafkaConsumer) StartKafkaSubscriber() {
 }
 
 func (consumer *KafkaConsumer) connectConsumer() (*kafka.Consumer, error) {
-	kafkaConfig := consumer.config.KafkaConfig
+	kafkaConfig := consumer.kafkaConfig
 	conn, err := kafka.NewConsumer(&kafka.ConfigMap{
 		"bootstrap.servers": kafkaConfig.KafkaServerAddress,
 		"group.id":          kafkaConfig.ConsumerGroup,
