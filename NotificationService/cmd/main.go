@@ -1,9 +1,15 @@
 package main
 
-import "github.com/mohit-cse/MyLink-Backend/NotificationService/kafka_consumer"
+import (
+	"github.com/mohit-cse/MyLink-Backend/NotificationService/controllers"
+	"github.com/mohit-cse/MyLink-Backend/NotificationService/kafka_consumer"
+)
 
 func main() {
 	kafkaConsumer := kafka_consumer.KafkaConsumer{}
 	kafkaConsumer.Initialize()
-	kafkaConsumer.StartKafkaSubscriber()
+	go kafkaConsumer.StartKafkaSubscriber()
+	restServer := controllers.NotificationController{}
+	restServer.Initialize()
+	restServer.StartServer()
 }

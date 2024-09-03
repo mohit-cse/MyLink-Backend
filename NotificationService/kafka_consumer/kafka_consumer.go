@@ -30,6 +30,7 @@ func (consumer *KafkaConsumer) StartKafkaSubscriber() {
 	defer con.Close()
 
 	con.SubscribeTopics([]string{kafkaConfig.ConsumerTopic}, nil)
+	log.Println("Started Kafka consumer")
 	for {
 		msg, err := con.ReadMessage(-1)
 		if err != nil {

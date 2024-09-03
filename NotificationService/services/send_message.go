@@ -13,19 +13,43 @@ type Message struct {
 	Producer     *kafka_producer.KafkaProducer
 }
 
-func (message *Message) DeliverMessage() {
+func (message *Message) DeliverMessage() (*[]modals.NotificationResponse, string) {
+	failed := false
+	success := false
 	KafkaMessage := message.KafkaMessage
+	response := []modals.NotificationResponse{}
 	for _, channel := range KafkaMessage.Channel {
 		switch channel {
 		case "email":
-			message.sendMessageOverEmail()
+			isDelivered := message.sendMessageOverEmail()
+			response = append(response, modals.NotificationResponse{Channel: channel, IsDelivered: isDelivered})
+			if isDelivered {
+				success = true
+			} else {
+				failed = true
+			}
 		case "phone":
-			message.sendMessageOverSMS()
+			isDelivered := message.sendMessageOverSMS()
+			response = append(response, modals.NotificationResponse{Channel: channel, IsDelivered: isDelivered})
+			if isDelivered {
+				success = true
+			} else {
+				failed = true
+			}
 		}
 	}
+	var status string
+	if success && failed {
+		status = "partially_delivered"
+	} else if success && !failed {
+		status = "success"
+	} else {
+		status = "failed"
+	}
+	return &response, status
 }
 
-func (message *Message) sendMessageOverSMS() {
+func (message *Message) sendMessageOverSMS() bool {
 	kafkaMessage := message.KafkaMessage
 	var userDetails *modals.UserDetails
 	if (modals.UserDetails{} == kafkaMessage.UserDetails) {
@@ -34,7 +58,7 @@ func (message *Message) sendMessageOverSMS() {
 		if !isResponse {
 			message.Producer.PublishResponse(&modals.KafkaResponse{ID: message.KafkaMessage.ID, IsDelivered: false, Channel: "phone"})
 			log.Println("SMS failed for message: " + message.KafkaMessage.ID)
-			return
+			return false
 		}
 	} else {
 		userDetails = &kafkaMessage.UserDetails
@@ -47,10 +71,13 @@ func (message *Message) sendMessageOverSMS() {
 	} else {
 		log.Println("SMS failed for message: " + message.KafkaMessage.ID)
 	}
-	message.Producer.PublishResponse(&modals.KafkaResponse{ID: message.KafkaMessage.ID, IsDelivered: status, Channel: "phone"})
+	if message.Producer != nil {
+		message.Producer.PublishResponse(&modals.KafkaResponse{ID: message.KafkaMessage.ID, IsDelivered: status, Channel: "phone"})
+	}
+	return status
 }
 
-func (message *Message) sendMessageOverEmail() {
+func (message *Message) sendMessageOverEmail() bool {
 	kafkaMessage := message.KafkaMessage
 	var userDetails *modals.UserDetails
 	if (modals.UserDetails{} == kafkaMessage.UserDetails) {
@@ -59,7 +86,7 @@ func (message *Message) sendMessageOverEmail() {
 		if !isResponse {
 			message.Producer.PublishResponse(&modals.KafkaResponse{ID: message.KafkaMessage.ID, IsDelivered: false, Channel: "email"})
 			log.Println("Email failed for message: " + message.KafkaMessage.ID)
-			return
+			return false
 		}
 	} else {
 		userDetails = &kafkaMessage.UserDetails
@@ -71,5 +98,8 @@ func (message *Message) sendMessageOverEmail() {
 	} else {
 		log.Println("Email failed for message: " + message.KafkaMessage.ID)
 	}
-	message.Producer.PublishResponse(&modals.KafkaResponse{ID: message.KafkaMessage.ID, IsDelivered: status, Channel: "email"})
+	if message.Producer != nil {
+		message.Producer.PublishResponse(&modals.KafkaResponse{ID: message.KafkaMessage.ID, IsDelivered: status, Channel: "email"})
+	}
+	return status
 }
