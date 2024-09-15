@@ -1,0 +1,63 @@
+definitions:
+  modals.NotificationRequest:
+    properties:
+      channel:
+        items:
+          type: string
+        type: array
+      email_message:
+        type: string
+      email_subject:
+        type: string
+      phone_message:
+        type: string
+      user_details:
+        $ref: '#/definitions/modals.UserDetails'
+    type: object
+  modals.NotificationResponse:
+    properties:
+      channel:
+        type: string
+      is_delivered:
+        type: boolean
+      message:
+        type: string
+    type: object
+  modals.UserDetails:
+    properties:
+      country_code:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Service for triggering notifications
+  title: Notification Service
+  version: "1.0"
+paths:
+  /api/notify:
+    post:
+      description: Sends notification to mentioned channels
+      parameters:
+      - description: Send notification
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/modals.NotificationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/modals.NotificationResponse'
+      summary: Send notification
+      tags:
+      - tags
+swagger: "2.0"

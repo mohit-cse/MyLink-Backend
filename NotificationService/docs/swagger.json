@@ -1,0 +1,98 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Service for triggering notifications",
+        "title": "Notification Service",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/notify": {
+            "post": {
+                "description": "Sends notification to mentioned channels",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tags"
+                ],
+                "summary": "Send notification",
+                "parameters": [
+                    {
+                        "description": "Send notification",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/modals.NotificationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/modals.NotificationResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "modals.NotificationRequest": {
+            "type": "object",
+            "properties": {
+                "channel": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "email_message": {
+                    "type": "string"
+                },
+                "email_subject": {
+                    "type": "string"
+                },
+                "phone_message": {
+                    "type": "string"
+                },
+                "user_details": {
+                    "$ref": "#/definitions/modals.UserDetails"
+                }
+            }
+        },
+        "modals.NotificationResponse": {
+            "type": "object",
+            "properties": {
+                "channel": {
+                    "type": "string"
+                },
+                "is_delivered": {
+                    "type": "boolean"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "modals.UserDetails": {
+            "type": "object",
+            "properties": {
+                "country_code": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
