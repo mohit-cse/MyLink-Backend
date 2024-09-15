@@ -12,7 +12,7 @@ import (
 func main() {
 	kafkaConsumer := kafka_consumer.KafkaConsumer{}
 	kafkaConsumer.Initialize()
-	// go kafkaConsumer.StartKafkaSubscriber()
+	go kafkaConsumer.StartKafkaSubscriber()
 	restServer := controllers.NotificationController{}
 	restServer.Initialize()
 	go restServer.StartServer()
