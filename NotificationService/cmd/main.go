@@ -11,5 +11,6 @@ func main() {
 	go kafkaConsumer.StartKafkaSubscriber()
 	restServer := controllers.NotificationController{}
 	restServer.Initialize()
-	restServer.StartServer()
+	go restServer.StartServer()
+	select {}
 }
