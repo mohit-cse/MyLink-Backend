@@ -17,6 +17,25 @@ spring:
     exclude[0]: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
     exclude[1]: org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
 
+# management config
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    enable:
+      all: true
+  endpoint:
+    health:
+      show-details: always
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_URL}
+  tracing:
+    sampling:
+      probability: 1
+
 # Jwt properties
 security:
   jwt:
@@ -44,4 +63,4 @@ logging:
           filter:
             CommonsRequestLoggingFilter: INFO
   com:
-    mohit: TRACE
+    mohit: INFO

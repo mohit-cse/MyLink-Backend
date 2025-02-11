@@ -47,4 +47,8 @@ public class AuthController {
     public ResponseEntity<Boolean> deleteAccount(@RequestBody LoginRequestDTO loginRequest) {
         return authService.deleteAccount(loginRequest);
     }
+    @PutMapping("/updatePassword")
+    public ResponseEntity<Boolean> updatePassword(@RequestBody LoginRequestDTO loginRequest) {
+        return authService.deleteAccount(loginRequest);
+    }
 }

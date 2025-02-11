@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: doc-service
+    name: doc-service-dev
   data:
     elasticsearch:
       cluster-nodes: ${ES_CLUSTER_NODE}
@@ -17,6 +17,26 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+
+# management config
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    enable:
+      all: true
+  endpoint:
+    health:
+      show-details: always
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_URL}
+  tracing:
+    sampling:
+      probability: 1
+
 # Other Service endpoints
 endpoints:
   user-service: ${USER_SERVICE_ENDPOINT}
@@ -25,6 +45,7 @@ endpoints:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+  show-actuator: true
 
 # OpenAPI Config
 openapi:
@@ -41,5 +62,5 @@ logging:
         web:
           filter:
             CommonsRequestLoggingFilter: DEBUG
-  com:
-    mohit: TRACE
+    com:
+      mohit: INFO

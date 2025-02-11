@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: user-service
+    name: user-service-dev
   datasource:
     url: jdbc:mariadb://${DB_HOST}:${DB_PORT}/${DB_NAME}
     username: ${DB_USER}
@@ -17,6 +17,26 @@ spring:
     exclude[0]: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
     exclude[1]: org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
 
+# management config
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    enable:
+      all: true
+  endpoint:
+    health:
+      show-details: always
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_URL}
+  tracing:
+    sampling:
+      probability: 1
+
+
 # Jwt properties
 security:
   jwt:
@@ -27,6 +47,7 @@ security:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+  show-actuator: true
 
 # OpenAPI Config
 openapi:
@@ -43,5 +64,5 @@ logging:
         web:
           filter:
             CommonsRequestLoggingFilter: DEBUG
-  com:
-    mohit: TRACE
+    com:
+      mohit: INFO
