@@ -17,7 +17,7 @@ spring:
     exclude[0]: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
     exclude[1]: org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
 
-# management config
+# Management properties
 management:
   endpoints:
     web:
@@ -36,7 +36,6 @@ management:
     sampling:
       probability: 1
 
-
 # Jwt properties
 security:
   jwt:
@@ -54,6 +53,27 @@ openapi:
   service:
     title: User Service
     version: v${VERSION}
+
+# Security config
+security-config:
+  allowed-paths: >
+    /api/auth/**,
+    /swagger-ui/**,
+    /v3/api-docs/**,
+    /actuator/**,
+    /h2-console/**
+  cors-config:
+    allowed-origins: >
+      http://localhost:8081,
+      http://api.mohit
+    allowed-methods: >
+      GET,
+      POST
+    allowed-headers: >
+      Authorization,
+      Content-Type
+    registered-paths: >
+      /**
 
 # Logging properties
 logging:

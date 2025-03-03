@@ -5,3 +5,9 @@ server:
 spring:
   application:
     name: api_gateway
+  # Devtools properties
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: false

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://api.mohit", maxAge = 3600)
+//@CrossOrigin(origins = "http://api.mohit", maxAge = 3600)
 public class AuthController {
     private final AuthService authService;
     private final JwtService jwtService;
@@ -49,6 +49,10 @@ public class AuthController {
     }
     @PutMapping("/updatePassword")
     public ResponseEntity<Boolean> updatePassword(@RequestBody LoginRequestDTO loginRequest) {
+        return authService.deleteAccount(loginRequest);
+    }
+    @PutMapping("/forgotPassword")
+    public ResponseEntity<Boolean> forgotPassword(@RequestBody LoginRequestDTO loginRequest) {
         return authService.deleteAccount(loginRequest);
     }
 }

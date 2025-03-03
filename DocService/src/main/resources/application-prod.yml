@@ -17,6 +17,12 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+  # Devtools properties
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: false
 
 # management config
 management:
