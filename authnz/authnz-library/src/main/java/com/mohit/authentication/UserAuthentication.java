@@ -1,16 +1,28 @@
 package com.mohit.authentication;
 
+import com.mohit.modals.authentication.AuthUser;
+import com.mohit.modals.authentication.Role;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.security.auth.Subject;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class UserAuthentication implements Authentication {
+    private final AuthUser authUser;
+
+    public UserAuthentication(AuthUser authUser) {
+        this.authUser = authUser;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new ArrayList<>();
+        return authUser.getRoles().stream()
+                .map(Role::getRoleName)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -25,22 +37,22 @@ public class UserAuthentication implements Authentication {
 
     @Override
     public Object getPrincipal() {
-        return null;
+        return authUser;
     }
 
     @Override
     public boolean isAuthenticated() {
-        return false;
+        return authUser.isAuthenticated();
     }
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
+        authUser.setAuthenticated(isAuthenticated);
     }
 
     @Override
     public String getName() {
-        return "";
+        return authUser.getName();
     }
 
     @Override
@@ -49,17 +61,19 @@ public class UserAuthentication implements Authentication {
     }
 
     @Override
-    public boolean equals(Object another) {
-        return false;
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 
     @Override
     public String toString() {
-        return "";
-    }
-
-    @Override
-    public int hashCode() {
-        return 0;
+        return "UserAuthentication{" +
+                "authUser=" + authUser +
+                '}';
     }
 }

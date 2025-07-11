@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="authnz-modals" />
         <module name="authnz-library" />
         <module name="authnz-test-service" />
         <module name="authnz-service" />

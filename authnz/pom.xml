@@ -6,6 +6,9 @@
   <version>1.0-SNAPSHOT</version>
   <name>authnz</name>
   <url>http://maven.apache.org</url>
+  <properties>
+    <lombok.version>1.18.38</lombok.version>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -13,10 +16,17 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+    </dependency>
   </dependencies>
   <modules>
     <module>authnz-service</module>
     <module>authnz-library</module>
     <module>authnz-test-service</module>
+    <module>authnz-modals</module>
   </modules>
 </project>
