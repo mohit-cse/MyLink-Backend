@@ -1,6 +1,5 @@
-package com.mohit.controllers;
+package com.mohit.authnz_service.controllers;
 
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -1,7 +1,7 @@
-package com.mohit.controllers;
+package com.mohit.authnz_service.controllers;
 
-import com.mohit.dto.profile.RegisterClientRequest;
-import com.mohit.dto.profile.RegisterClientResponse;
+import com.mohit.authnz_service.dto.profile.RegisterClientRequest;
+import com.mohit.authnz_service.dto.profile.RegisterClientResponse;
 import com.mohit.models.authentication.Role;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/client")

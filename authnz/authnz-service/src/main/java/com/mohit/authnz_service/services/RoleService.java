@@ -1,4 +1,4 @@
-package com.mohit.services;
+package com.mohit.authnz_service.services;
 
 import org.springframework.stereotype.Service;
 

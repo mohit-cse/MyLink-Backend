@@ -1,4 +1,4 @@
-package com.mohit.dto.authn;
+package com.mohit.authnz_service.dto.authn;
 
 import lombok.Builder;
 import lombok.Data;

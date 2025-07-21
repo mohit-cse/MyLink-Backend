@@ -1,4 +1,4 @@
-package com.mohit.dto.role;
+package com.mohit.authnz_service.dto.role;
 
 import com.mohit.models.authentication.Role;
 import lombok.Data;

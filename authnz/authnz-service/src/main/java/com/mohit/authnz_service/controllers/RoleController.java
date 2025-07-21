@@ -1,7 +1,7 @@
-package com.mohit.controllers;
+package com.mohit.authnz_service.controllers;
 
-import com.mohit.dto.role.RoleDTO;
-import com.mohit.services.RoleService;
+import com.mohit.authnz_service.dto.role.RoleDTO;
+import com.mohit.authnz_service.services.RoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;

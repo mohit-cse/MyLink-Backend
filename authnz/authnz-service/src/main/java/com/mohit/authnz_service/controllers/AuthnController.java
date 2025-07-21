@@ -1,15 +1,12 @@
-package com.mohit.controllers;
+package com.mohit.authnz_service.controllers;
 
-import com.mohit.dto.authn.JwtTokenResponse;
-import com.mohit.dto.authn.LoginRequest;
-import com.mohit.dto.authn.LoginResponse;
+import com.mohit.authnz_service.dto.authn.JwtTokenResponse;
+import com.mohit.authnz_service.dto.authn.LoginRequest;
+import com.mohit.authnz_service.dto.authn.LoginResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/authn")
@@ -18,7 +15,7 @@ public class AuthnController {
 
     @PostMapping("/login")
     @Operation(summary = "Client login", description = "API to login using credentials")
-    public ResponseEntity<LoginResponse> login(@RequestParam LoginRequest loginRequest){
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest){
         // Logic to handle login
         // For now, just return a dummy response
         JwtTokenResponse jwtTokenResponse = JwtTokenResponse.builder()
@@ -28,7 +25,7 @@ public class AuthnController {
                 .sessionExpiresAt(System.currentTimeMillis() + 7200000) // 2 hours later
                 .build();
         LoginResponse response = LoginResponse.builder()
-                .userId("12345")
+                .userId("12365")
                 .success(true)
                 .jwtTokenResponse(jwtTokenResponse)
                 .build();

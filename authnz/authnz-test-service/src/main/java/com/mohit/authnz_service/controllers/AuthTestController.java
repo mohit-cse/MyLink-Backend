@@ -1,4 +1,4 @@
-package com.mohit.controllers;
+package com.mohit.authnz_service.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
